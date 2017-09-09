@@ -1,0 +1,3 @@
+needed software
+dd
+unzip
