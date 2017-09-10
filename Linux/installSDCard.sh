@@ -3,7 +3,7 @@
 
 # abort on error
 
-source config.sh
+source installConfig.sh
 IMAGE=$IMAGE_Release_date$IMAGE_Name
 IMAGE_ZIP=$IMAGE".zip"
 IMAGE_IMG=$IMAGE".img"
