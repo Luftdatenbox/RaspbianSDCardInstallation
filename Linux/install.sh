@@ -73,8 +73,8 @@ then
 	echo "too many SD Cards found"
 	exit 1
 fi
-
-SD_CARD_PATH=${${FILTERED_ARRAY_SD_CARD_DF_H[0]}::-1}
+FIRST_SD_CARD_PATH=${FILTERED_ARRAY_SD_CARD_DF_H[0]}
+SD_CARD_PATH=${${FIRST_SD_CARD_PATH[0]}::-1}
 echo "SD Karte gefunden: $SD_CARD_PATH"
 
 echo "####"
