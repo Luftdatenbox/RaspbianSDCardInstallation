@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # http://kamilslab.com/2016/12/11/how-to-install-fail2ban-on-the-raspberry-pi/
-sudo apt install fail2ban -y
+echo $PASSWD_Name | sudo apt install fail2ban -y
 
 # create jail.local for ssh to counter brute force attacks 
 echo "[ssh] 
@@ -16,9 +16,9 @@ bantime = 900
 banaction = iptables-allports 
 findtime = 900 
 maxretry = 5 
-" | sudo tee -a /etc/fail2ban/jail.local
+" | (echo $PASSWD_Name | sudo tee -a /etc/fail2ban/jail.local)
 # restart fail2ban
-sudo service fail2ban restart
+echo $PASSWD_Name | sudo service fail2ban restart
 
 # interessting commands:
 # sudo tail -f /var/log/fail2ban.log

@@ -8,36 +8,13 @@ IMAGE=$IMAGE_Release_date$IMAGE_Name
 IMAGE_ZIP=$IMAGE".zip"
 IMAGE_IMG=$IMAGE".img"
 
-# download image and check sha 256 sum
-wget --no-clobber https://downloads.raspberrypi.org/raspbian_lite_latest -O $IMAGE_ZIP
-DOWNLOADED_IMAGE_SHA_256=$(sha256sum $IMAGE_ZIP | awk '{print $1}')
-if [ "$DOWNLOADED_IMAGE_SHA_256" != "$IMAGE_SHA_256" ]
-then
-	echo $DOWNLOADED_IMAGE_SHA_256
-	echo "downloaded image sha-256 sum do not match"
-	exit 1
-fi
-
-echo "downloaded image sha-256 sum checked and match"
-echo ""
-
-echo "extracting zip"
-# extract zip and enable
-unzip -oxp $IMAGE_ZIP > $IMAGE_IMG
-
-echo "enabling ssh on Raspbian"
-mkdir --parents mnt/boot
-sudo mount -oloop,offset=$((8192*512)) $IMAGE_IMG mnt/boot
-sudo touch mnt/boot/ssh
-sudo umount -vvv --force mnt/boot
-sudo rm --recursive mnt
 
 echo "####"
 echo "Bitte SD Karte für entfernen, falls eingesteckt."
 read -p "Dann mit Eingabe/Enter bestätigen."
 
 UNINSERTED_SD_CARD_DF_H=$(df | grep '^/dev' | cut -d' ' -f1)
-echo $UNINSERTED_SD_CARD_DF_H
+#echo $UNINSERTED_SD_CARD_DF_H
 
 ARRAY_UNINSERTED_SD_CARD_DF_H=($UNINSERTED_SD_CARD_DF_H)
 
@@ -68,20 +45,58 @@ if [ "${#FILTERED_ARRAY_SD_CARD_DF_H[@]}" -eq "0" ]
 then
 	echo "no SD Card found"
 	exit 1
-elif [ "${#FILTERED_ARRAY_SD_CARD_DF_H[@]}" -ne "1" ]
+#elif [ "${#FILTERED_ARRAY_SD_CARD_DF_H[@]}" -ne "1" ]
+#then
+#	echo "too many SD Cards found"
+#	exit 1
+fi
+
+FIRST_SD_CARD_PATH=${FILTERED_ARRAY_SD_CARD_DF_H[0]}
+SD_CARD_PATH=""
+if [[ $FIRST_SD_CARD_PATH == *"mmcblk0"* ]]
 then
-	echo "too many SD Cards found"
+	SD_CARD_PATH=${FIRST_SD_CARD_PATH::-2}
+elif [[ $FIRST_SD_CARD_PATH == *"sd"* ]]
+then
+	SD_CARD_PATH=${FIRST_SD_CARD_PATH::-1}
+else
+	echo "could not determine /dev/sdaX or /dev/mmcblkX"
 	exit 1
 fi
-FIRST_SD_CARD_PATH=${FILTERED_ARRAY_SD_CARD_DF_H[0]}
-SD_CARD_PATH=${${FIRST_SD_CARD_PATH[0]}::-1}
+
 echo "SD Karte gefunden: $SD_CARD_PATH"
 
 echo "####"
 echo "Schreibe auf SD Karte mit $SD_CARD_PATH"
 read -p "Dann mit Eingabe/Enter bestätigen."
 
+## 
+# download image and check sha 256 sum
+wget --no-clobber https://downloads.raspberrypi.org/raspbian_lite_latest -O $IMAGE_ZIP
+DOWNLOADED_IMAGE_SHA_256=$(sha256sum $IMAGE_ZIP | awk '{print $1}')
+if [ "$DOWNLOADED_IMAGE_SHA_256" != "$IMAGE_SHA_256" ]
+then
+	echo $DOWNLOADED_IMAGE_SHA_256
+	echo "downloaded image sha-256 sum do not match"
+	exit 1
+fi
+set -e
+echo "downloaded image sha-256 sum checked and match"
+echo ""
+
+echo "extracting zip"
+# extract zip and enable
+unzip -nxp $IMAGE_ZIP > $IMAGE_IMG
+
+echo "enabling ssh on Raspbian"
+mkdir --parents mnt/boot
+sudo mount -oloop,offset=$((8192*512)) $IMAGE_IMG mnt/boot
+sudo touch mnt/boot/ssh
+sudo umount -vvv --force mnt/boot
+sudo rm --recursive mnt
+
 sudo dd bs=4M status=progress if=$IMAGE_IMG of=$SD_CARD_PATH conv=fsync
+
 
 echo "Erledigt"
 
