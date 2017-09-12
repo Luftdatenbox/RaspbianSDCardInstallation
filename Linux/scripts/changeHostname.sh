@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source UserConfig.sh
 source HostnameConfig.sh
 
 ## change Raspbery Pi's mDNS (local) address - in our example to "wetterstation"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source UserConfig.sh
+
 # create temporary user - tempuser
 echo $PASSWD_Name | sudo useradd -m tempuser
 echo $PASSWD_Name | sudo -S echo -e "tempuserpwd\ntempuserpwd" | sudo passwd tempuser
