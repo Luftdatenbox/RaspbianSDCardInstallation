@@ -3,5 +3,5 @@
 OLD_USER_Name="pi"
 OLD_PASSWD_Name="raspberry"
 
-USER_Name="wettermann"
-PASSWD_Name="schneesturm"
+USER_Name="chell"
+PASSWD_Name="portal"

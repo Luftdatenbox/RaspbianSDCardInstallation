@@ -2,8 +2,8 @@
 
 ## install docker compose
 # set up pip
-sudo apt install python-pip -y
-sudo pip install --upgrade pip
+echo $PASSWD_Name | sudo apt-get install python-pip -y
+echo $PASSWD_Name | sudo pip install --upgrade pip
 
 # create virtualenv for docker-compose
 #sudo pip install virtualenv
@@ -13,7 +13,7 @@ sudo pip install --upgrade pip
 #source env/bin/activate
 
 # install docker-compose
-sudo pip install docker-compose
+echo $PASSWD_Name | sudo  pip install docker-compose
 #deactivate
 
 # set docker-compose as alias to the environment

@@ -8,8 +8,7 @@ echo "[ssh]
  
 enabled = true 
 # port = ssh 
-# we do not use the standard ssh port any more
-port = 8022
+port = 22
 filter = sshd 
 logpath = /var/log/auth.log 
 bantime = 900 
