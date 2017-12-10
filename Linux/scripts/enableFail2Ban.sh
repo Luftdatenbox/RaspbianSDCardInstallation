@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source UserConfig.sh
+
 # http://kamilslab.com/2016/12/11/how-to-install-fail2ban-on-the-raspberry-pi/
 echo $PASSWD_Name | sudo apt install fail2ban -y
 
@@ -15,7 +17,7 @@ bantime = 900
 banaction = iptables-allports 
 findtime = 900 
 maxretry = 5 
-" | (echo $PASSWD_Name | sudo tee -a /etc/fail2ban/jail.local)
+" | sudo tee --append /etc/fail2ban/jail.local
 # restart fail2ban
 echo $PASSWD_Name | sudo service fail2ban restart
 

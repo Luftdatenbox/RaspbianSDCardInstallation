@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+STATIC_IP_ADDRESS="192.168.0.101"
+STATIC_GATEWAY="192.168.0.1"
+STATIC_DNS="8.8.8.8"
+
