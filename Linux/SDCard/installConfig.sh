@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 IMAGE_Name="-raspbian-lite"
-IMAGE_Release_date="2017-09-07"
-IMAGE_SHA_256="bd2c04b94154c9804cc1f3069d15e984c927b750056dd86b9d86a0ad4be97f12"
+IMAGE_Release_date="2017-11-29"
+IMAGE_SHA_256="e942b70072f2e83c446b9de6f202eb8f9692c06e7d92c343361340cc016e0c9f"

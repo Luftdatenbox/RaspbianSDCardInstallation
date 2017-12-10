@@ -13,7 +13,7 @@ echo $PASSWD_Name | sudo pip install --upgrade pip
 #source env/bin/activate
 
 # install docker-compose
-echo $PASSWD_Name | sudo  pip install docker-compose
+echo $PASSWD_Name | sudo pip install docker-compose
 #deactivate
 
 # set docker-compose as alias to the environment
