@@ -36,3 +36,14 @@ and connect once
 
 now execute the script changeBasicConfiguration.sh
 
+
+First edit UserConfig.sh, HostNameConfig.sh and if you need to StaticIpConfig.sh
+Then run scripts in this order:
+changeBasicConfiguration.sh
+updateAptGet.sh
+installDockerCompose.sh
+installFail2Ban.sh
+configureStaticIP.sh
+disableAvahi.sh
+
+if you do not need to some of the action, just leave the script out.
